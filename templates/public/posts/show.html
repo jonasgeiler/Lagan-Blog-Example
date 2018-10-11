@@ -1,0 +1,70 @@
+{%	set title = post.title %}
+
+{% extends "public/layouts/base.html" %}
+
+{% block content %}
+	<div class="col-sm-8 blog-main">
+		<h1>{{ post.title }}</h1>
+
+		{{ post.body|raw }}
+
+		{% if post.tags|length > 0 %}
+		<div class="mt-4">
+			<b>Tags: </b>
+			{% for tag in post.tags %}
+				<a class="btn btn-secondary btn-sm" href="{{ path_for('showpostswithtag', { 'tag': tag.title }) }}" role="button">
+					{{ tag.title }}
+				</a>
+			{% endfor %}
+		</div>
+		{% endif %}
+
+		<hr>
+
+		<div class="comments">
+			<p><b>Comments: </b></p>
+			<ul class="list-group">
+				{% if post.comment|length == 0 %}
+					<p>No comments yet.</p>
+				{% endif %}
+
+				{% for comment in post.comment %}
+					<li class="list-group-item mb-2">
+						<h5>
+							{{ comment.title }}<small class="text-muted">, on {{ comment.created }}</small>
+						</h5>
+						{{ comment.body }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class="card mt-3 mb-5">
+			<div class="card-block">
+				<p class="m-2 ml-3"><b>New Comment: </b></p>
+				<form method="post" action="{{ path_for('createcomment', { 'id': post.id }) }}" style="margin: 1rem;">
+					<!-- CSRF Protection -->
+					<input type="hidden" name="{{ csrf.keys.name }}" value="{{ csrf.name }}">
+					<input type="hidden" name="{{ csrf.keys.value }}" value="{{ csrf.value }}">
+
+					<div class="form-group">
+						<input name="title" placeholder="Username..." type="text" class="form-control" minlength="2" required>
+					</div>
+
+					<div class="form-group">
+						<textarea name="body"
+						          placeholder="Your comment here..."
+						          class="form-control"
+						          required></textarea>
+					</div>
+
+					<input type="hidden" name="post" value="{{ post.id }}">
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Add comment</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

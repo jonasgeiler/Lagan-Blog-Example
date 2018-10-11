@@ -1,0 +1,35 @@
+<div class="col-sm-3 offset-sm-1 blog-sidebar">
+	<div class="sidebar-module sidebar-module-inset">
+		<h4>About</h4>
+		<p>
+			Hello, I'm a demo blog built with <a href="https://laganphp.com">Lagan</a>,
+			a different take on a CMS, with a focus on flexibility.
+			Enjoy!
+			<hr>
+			Click <a href="{{ path_for('admin') }}">here</a> to go to the back-end.
+		</p>
+	</div>
+
+	<div class="sidebar-module">
+		<h4>All Tags</h4>
+		<ol class="list-unstyled">
+			{% if tags|length > 0 %}
+			{% for tag in tags %}
+			<li>
+				<a href="{{ path_for('showpostswithtag', { 'tag': tag.title }) }}">
+					{{ tag.title }}
+				</a>
+			</li>
+			{% endfor %}
+			{% endif %}
+		</ol>
+	</div>
+
+	<div class="sidebar-module">
+		<h4>Links</h4>
+		<ol class="list-unstyled">
+			<li><a href="https://laganphp.com">Lagan</a></li>
+			<li><a href="https://github.com/Skayo/lagan-blog-demo">Lagan Blog Demo</a></li>
+		</ol>
+	</div>
+</div><!-- /.blog-sidebar -->

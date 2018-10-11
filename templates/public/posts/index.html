@@ -1,0 +1,27 @@
+{%	set title = 'Home' %}
+
+{% extends "public/layouts/base.html" %}
+
+{% block content %}
+	<div class="col-sm-8 blog-main">
+		{% if tag %}
+		<h5><strong>Posts with tag "{{ tag }}":</strong></h5>
+		{% endif %}
+
+		{% if posts|length == 0 %}
+			<p>No posts yet.</p>
+		{% endif %}
+
+		{% for post in posts %}
+			{% include 'public/posts/post.html' %}
+		{% endfor %}
+
+		<!-- Maybe will implement later....
+		<nav class="blog-pagination">
+			<a class="btn btn-outline-primary" href="#">Older</a>
+			<a class="btn btn-outline-secondary disabled" href="#">Newer</a>
+		</nav>
+		-->
+
+	</div><!-- /.blog-main -->
+{% endblock content %}

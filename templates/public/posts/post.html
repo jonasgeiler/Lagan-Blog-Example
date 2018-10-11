@@ -1,0 +1,17 @@
+<div class="card mb-4">
+	<div class="card-block">
+		<div class="blog-post">
+			<h2 class="blog-post-title">
+				<a href="{{ path_for('showpost', { 'id': post.id }) }}">
+					{{ post.title }}
+				</a>
+			</h2>
+			<p class="blog-post-meta">
+				Posted on {{ post.created }}
+			</p>
+
+			{{ post.body|raw }}
+
+		</div><!-- /.blog-post -->
+	</div>
+</div>

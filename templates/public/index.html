@@ -1,0 +1,153 @@
+{%    set title = 'Home' %}
+
+{% extends "public/base.html" %}
+
+{% block content %}
+
+<section class="hero is-primary is-medium is-bold">
+	<!-- Hero head: will stick at the top -->
+	<div class="hero-head">
+		<nav class="navbar">
+			<div class="container">
+				<div class="navbar-brand">
+					<span class="navbar-burger burger" data-target="navbarMenuHeroA">
+			            <span></span>
+			            <span></span>
+			            <span></span>
+					</span>
+				</div>
+				<div id="navbarMenuHeroA" class="navbar-menu">
+					<div class="navbar-end">
+						<a class="navbar-item">
+							<span class="icon">
+								<i class="fa fa-sign-in"></i>
+							</span>
+							<span>
+								Login/Register
+							</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Hero content: will be in the middle -->
+	<div class="hero-body">
+		<div class="container has-text-centered">
+			<h1 class="is-1 title">
+				Gameshell App-Store
+			</h1>
+			<h2 class="subtitle">
+				<form action="{{ path_for('searchapp') }}" method="get">
+					<div class="field has-addons has-addons-centered">
+						<div class="control margin-top-20">
+							<input class="input" name="q" size="40" type="text" placeholder="Search app...">
+						</div>
+						<div class="control margin-top-20">
+							<button type="submit" class="button is-info">
+								<span class="icon is-small">
+									<i class="fa fa-search"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</h2>
+		</div>
+	</div>
+</section>
+
+<div class="container margin-top-20">
+	<div class="level is-mobile">
+		<div class="level-left">
+			{% if search %}
+			<h1 class="title is-5">Search results for '{{ query }}':</h1>
+			{% else %}
+			<h1 class="title is-5">All Apps:</h1>
+			{% endif %}
+		</div>
+		<div class="level-right">
+			<div class="dropdown is-hoverable is-right">
+				<div class="dropdown-trigger">
+					<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+						<span>Sort by</span>
+						<span class="icon is-small">
+							<i class="fa fa-angle-down" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+				<div class="dropdown-menu" id="dropdown-menu" role="menu">
+					<div class="dropdown-content">
+						<a href="#" class="dropdown-item is-active">
+							Most liked
+						</a>
+						<a class="dropdown-item">
+							Newest
+						</a>
+						<a href="#" class="dropdown-item">
+							Oldest
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	{% if apps|length > 0 %}
+	<div class="columns">
+		{% for app in apps %}
+		<div class="column is-4">
+			<!--
+			<div class="thumbnail">
+				<img src="{{ app_url }}{{ hoverkraft.picture }}" alt="{{ hoverkraft.title }}">
+				<div class="caption">
+					<h3>{{ app.title }}</h3>
+					<p>{{ app.description }}</p>
+					<p><a href="{{ path_for('viewapp', { 'slug': app.slug }) }}" class="btn btn-primary" role="button">Check out this Hoverkraft</a>
+					</p>
+				</div>
+			</div>-->
+			<div class="card">
+				<div class="card-image">
+					<figure class="image is-4by3">
+						<img src="{{ app.image }}" alt="Placeholder image">
+					</figure>
+				</div>
+				<div class="card-content">
+					<div class="content">
+						<h1><a href="#" class="has-text-black">{{ app.title }}</a></h1>
+						{{ app.description }}
+						<br>
+						<time class="has-text-grey" datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+					</div>
+				</div>
+				<footer class="card-footer">
+					<a href="#" class="button is-white is-medium card-footer-item has-text-grey-dark">
+						<span>13</span>
+						<span class="icon {% if app.hasliked %} has-text-danger {% else %} has-text-grey {% endif %}">
+							<i class="fa fa-heart" aria-hidden="true"></i>
+						</span>
+					</a>
+					<p class="card-footer-item">
+				      <span>
+				        By <a href="#">Skayo</a>
+				      </span>
+					</p>
+				</footer>
+			</div>
+		</div>
+		{% if loop.index % 3 == 0 %}
+	</div>
+	<div class="row">
+		{% endif %}
+		{% endfor %}
+	</div>
+	{% else %}
+	<hr>
+	<p class="text-muted text-center">No apps yet.</p>
+	{% endif %}
+</div>
+
+{% endblock content %}

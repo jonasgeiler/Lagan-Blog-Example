@@ -1,0 +1,52 @@
+{%	set title = 'Search results for "' ~ query ~ '"' %}
+
+{% extends "public/base.html" %}
+
+{% block content %}
+
+	<div class="page-header">
+		<h1>Search results for "{{ query }}"</h1>
+	</div>
+
+	<form class="form-inline" method="get" action="{{ app_url }}/hoverkraft/search">
+		<div class="form-group">
+			<input type="text" class="form-control" name="*has" placeholder="Search">
+			<input type="hidden" name="sort" value="title*asc">
+		</div>
+		<button type="submit" class="btn btn-primary">Search</button>
+	</form>
+
+	<hr>
+
+{% if search.result|length > 0 %}
+{% 	for hoverkraft in search.result %}
+	<div class="media">
+		<div class="media-left">
+			<a href="{{ path_for('hoverkraft', { 'slug': hoverkraft.slug }) }}">
+				<img class="media-object" src="{{ app_url }}{{ hoverkraft.picture }}" alt="{{ hoverkraft.title }}" width="64">
+			</a>
+		</div>
+		<div class="media-body">
+			<a href="{{ path_for('hoverkraft', { 'slug': hoverkraft.slug }) }}">
+				<h4 class="media-heading">{{ hoverkraft.title }}</h4>
+			</a>
+			{{ hoverkraft.description }}
+		</div>
+	</div>
+{% 	endfor %}
+{% else %}
+	<hr>
+	<p class="text-muted text-center">Sorry, your query doesn't match any results...</p>
+{% endif %}
+
+{% if search.pages and search.pages > 1 %}
+	<ul class="pagination">
+{% 	for page in 1..search.pages %}
+	<li {% if search.page == page-1 %}class="active"{% endif %}>
+		<a href="{{ page_url }}{% if search.query %}?{{ search.query }}&{% else %}?{% endif %}limit={{ search.limit }}&offset={{ (page - 1) * search.limit }}">{{ page }}</a>
+	</li>
+{% 	endfor %}
+	</ul>
+{% endif %}
+
+{% endblock content %}
