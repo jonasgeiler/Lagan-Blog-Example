@@ -10,8 +10,6 @@ Lagan Blog Example
 An example project that shows how to create a blog with Lagan.
 Write blog posts, add tags or just comment others!
 
-This project is built on the basic Lagan project (https://github.com/lutsen/lagan), and only includes the extra files you need to add to this project.
-
 
 To do
 -----
